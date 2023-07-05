@@ -1,0 +1,13 @@
+.main {
+  display: grid;
+  grid-template-rows: 10fr 0.5fr;
+  min-height: 100vh;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.horizontal {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 2fr;
+}

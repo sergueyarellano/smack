@@ -1,0 +1,16 @@
+.main {
+  border: 1px var(--primaryDark500) solid;
+  list-style-type: none;
+}
+
+.defaultLog {
+  color: blue;
+}
+
+.successLog {
+  color: green;
+}
+
+.errorLog {
+  color: red;
+}

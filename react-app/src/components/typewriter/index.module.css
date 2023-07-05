@@ -1,0 +1,9 @@
+.main {
+  min-width: 100%;
+  min-height: 2rem;
+}
+
+.input {
+  min-width: inherit;
+  min-height: inherit;
+}
