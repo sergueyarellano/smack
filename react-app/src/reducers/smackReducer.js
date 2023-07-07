@@ -18,7 +18,7 @@ export const initialSmackState = {
 export function smackReducer (state, action) {
   switch (action.type) {
     case smackAction.SET_CONNECTED:
-      return { ...state, isConnected: true }
+      return { ...state, isConnected: action.payload }
     case smackAction.SET_COMMAND:
       return { ...state, command: action.payload }
     case smackAction.SEND_MESSAGE:
@@ -36,7 +36,7 @@ export function getDispatchers (dispatch) {
     dispatchCommand: cmd => dispatch({ type: smackAction.SET_COMMAND, payload: cmd }),
     receiveMessage: msg => dispatch({ type: smackAction.RECEIVE_MESSAGE, payload: fmtMessage(msg) }),
     sendMessage: msg => dispatch({ type: smackAction.SEND_MESSAGE, payload: fmtMessage(msg) }),
-    dispatchEventConnected: () => dispatch({ type: smackAction.SET_CONNECTED }),
+    dispatchEventConnected: (bool) => dispatch({ type: smackAction.SET_CONNECTED, payload: bool }),
     dispatchSyslogStdin: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
   }
 }

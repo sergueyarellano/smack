@@ -6,7 +6,9 @@ function initWebSocket ({ dispatchMessage, dispatchEventConnected }) {
   socket = io('http://localhost:3001')
   onChatMessage = dispatchMessage
   onSocketConnection = dispatchEventConnected
-  socket.on('connect', onSocketConnection)
+  const isConnected = true
+  socket.on('connect', onSocketConnection.bind(null, isConnected))
+  socket.on('disconnect', onSocketConnection.bind(null, !isConnected))
   socket.on('chat-message', onChatMessage)
 }
 
