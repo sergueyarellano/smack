@@ -1,16 +1,22 @@
 .main {
-  border: 1px var(--primaryDark500) solid;
+  background-color: #ffffff;
+  border: 1px #000000 solid;
   list-style-type: none;
+  margin: 0;
+  padding: 1rem;
 }
 
 .defaultLog {
   color: blue;
+  padding: 0.5rem;
 }
 
 .successLog {
   color: green;
+  padding: 0.5rem;
 }
 
 .errorLog {
   color: red;
+  padding: 0.5rem;
 }

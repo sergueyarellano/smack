@@ -6,15 +6,26 @@
 ```
 
 ## development
+
+to run the server
+```sh
+# from another shell
+(cd ../smack-be && npm run dev)
+```
+
+react app
 ```sh
 # from one shell
 (cd react-app && npm start)
 ```
 
+electron env
 ```sh
 # from another shell
 (cd electron-app && npm start)
 ```
+
+
 
 ## production
 ```sh

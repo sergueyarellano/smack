@@ -1,9 +1,14 @@
 .main {
   min-width: 100%;
   min-height: 2rem;
+  margin: 0;
+  align-self: center;
 }
 
 .input {
+  height: 2rem;
   min-width: inherit;
   min-height: inherit;
+  border: 1px #000000 solid;
+  padding: 1rem; 
 }
