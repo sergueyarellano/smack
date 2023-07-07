@@ -6,6 +6,11 @@
   padding: 1rem;
 }
 
+.logList {
+  list-style-type: none;
+  padding: 0;
+}
+
 .defaultLog {
   color: blue;
   padding: 0.5rem;

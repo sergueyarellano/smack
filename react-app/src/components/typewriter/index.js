@@ -1,5 +1,5 @@
 import styles from './index.module.css'
-import { cmdParser } from './cli'
+import { cmdParser } from '../../cli'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
 export default function Typewriter ({ dispatchCommand, dispatchMessage }) {

@@ -10,13 +10,16 @@ import {
   initialSmackState,
   smackReducer
 } from './reducers/smackReducer'
+import { cmd } from './cli'
 
 export default function Smack () {
   // TODO: when command is not a new one, how to avoid Syslog rerender?
-  const [{ isConnected, egressMessage, ingressMessage, commands }, dispatch] = useReducer(smackReducer, initialSmackState)
+  const [{
+    isConnected, egressMessage, ingressMessage, command, syslogStdin
+  }, dispatch] = useReducer(smackReducer, initialSmackState)
+  const { dispatchEventConnected, dispatchCommand, receiveMessage, sendMessage, dispatchSyslogStdin } = getDispatchers(dispatch)
 
-  const { dispatchEventConnected, dispatchCommand, receiveMessage, sendMessage } = getDispatchers(dispatch)
-
+  console.log('TCL: Smack -> syslogStdin', syslogStdin)
   // initialize WS connection and pass connect and event handlers
   useEffect(() => {
     initWebSocket({ dispatchMessage: receiveMessage, dispatchEventConnected })
@@ -28,10 +31,15 @@ export default function Smack () {
     (isConnected && egressMessage) && emit(fmtMessage(egressMessage))
   }, [egressMessage, isConnected])
 
+  // execute commands
+  useEffect(() => {
+    command && cmd(command, dispatchSyslogStdin)
+  }, [command])
+
   return (
     <main className={styles.main}>
       <div className={styles.horizontal}>
-        <SysLog commands={commands} isConnected={isConnected} />
+        <SysLog stdin={syslogStdin} isConnected={isConnected} />
         <ChatView ingressMessage={ingressMessage} />
       </div>
       <Ty dispatchCommand={dispatchCommand} dispatchMessage={sendMessage} />
