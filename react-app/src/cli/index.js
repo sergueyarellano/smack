@@ -1,11 +1,12 @@
 import minimist from 'minimist'
 
 const COMMAND_NAMES = {
-  HELP: 'help'
+  HELP: 'help',
+  P2P: 'p2p'
 }
 
 const commands = new Map()
-commands.set(COMMAND_NAMES.HELP, { description: 'this is help', usage: '/help' })
+commands.set(COMMAND_NAMES.HELP, [{ command: '/help', description: 'this is help' }])
 
 const commandList = getCommandList(commands)
 
@@ -31,10 +32,11 @@ export function cmd ({ command, parsed }, dispatchSyslogStdin) {
 
 function getCommandList (commands) {
   const list = []
-  for (const [cmd, value] of commands) {
-    list.push('Commands')
-    list.push(`  ${value.usage} description: ${value.description}`)
-    // list.push(`description: ${value.description}`)
+  list.push('Commands')
+  for (const [cmd, usage] of commands) {
+    for (const val of usage) {
+      list.push(`  ${val.command}\t\t${val.description}`)
+    }
   }
   return list
 }

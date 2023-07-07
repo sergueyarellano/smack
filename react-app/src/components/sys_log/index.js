@@ -22,5 +22,5 @@ export default function SysLog ({ stdin, isConnected }) {
   )
 }
 function composeLogItem (value, index) {
-  return <li key={index}>{value}</li>
+  return <pre key={index}>{value}</pre>
 }
