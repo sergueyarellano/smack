@@ -1,7 +1,7 @@
-'use client'
 import styles from './index.module.css'
 import { cmdParser } from './cli'
 
+// TODO: cool feature would be to remember history and reselect messages and commands
 export default function Typewriter ({ dispatchCommand, dispatchMessage }) {
   return (
     <form className={styles.main} onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage })}>
@@ -20,8 +20,10 @@ function onSubmitWithProps ({ dispatchCommand, dispatchMessage }) {
     const inputValue = e.target[0].value
     if (inputValue.startsWith('/')) {
       const parsed = cmdParser(inputValue)
-      dispatchCommand({ command: inputValue, parsed })
+      // TODO: shift is a side effect
+      dispatchCommand({ command: parsed._.shift(), parsed })
     } else {
+      // TODO: I don't think TY should know the author
       dispatchMessage({ author: 'me', message: inputValue })
     }
     // clear the CLI
