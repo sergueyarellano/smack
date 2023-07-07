@@ -1,11 +1,13 @@
 import { fmtMessage } from '../dataFormats'
 
 export const smackAction = {
-  SET_CONNECTED: 'SET_CONNECTED',
-  SET_COMMAND: 'SET_COMMAND',
+  CONNECT: 'CONNECT',
+  RECEIVE_MESSAGE: 'RECEIVE_MESSAGE',
   SEND_MESSAGE: 'SEND_MESSAGE',
   SET_SYSLOG: 'SET_SYSLOG',
-  RECEIVE_MESSAGE: 'RECEIVE_MESSAGE'
+  RECEIVE_MESSAGE: 'RECEIVE_MESSAGE',
+  SET_COMMAND: 'SET_COMMAND',
+  SET_USERS: 'SET_USERS'
 }
 export const initialSmackState = {
   isConnected: false,
@@ -16,21 +18,18 @@ export const initialSmackState = {
 }
 export function smackReducer (state, action) {
   switch (action.type) {
-    case smackAction.SET_CONNECTED:
+    case smackAction.CONNECT:
       return { ...state, isConnected: true }
     case smackAction.SET_COMMAND:
       return { ...state, command: action.payload }
-    case smackAction.SEND_MESSAGE: {
+    case smackAction.SEND_MESSAGE:
       return { ...state, egressMessage: action.payload }
-    }
-    case smackAction.SET_SYSLOG: {
+    case smackAction.SET_SYSLOG:
       return { ...state, syslogStdin: action.payload }
-    }
     case smackAction.RECEIVE_MESSAGE:
       return { ...state, ingressMessage: action.payload }
-    default: {
+    default:
       return state
-    }
   }
 }
 export function getDispatchers (dispatch) {
@@ -38,7 +37,7 @@ export function getDispatchers (dispatch) {
     dispatchCommand: cmd => dispatch({ type: smackAction.SET_COMMAND, payload: cmd }),
     receiveMessage: msg => dispatch({ type: smackAction.RECEIVE_MESSAGE, payload: fmtMessage(msg) }),
     sendMessage: msg => dispatch({ type: smackAction.SEND_MESSAGE, payload: fmtMessage(msg) }),
-    dispatchEventConnected: () => dispatch({ type: smackAction.SET_CONNECTED }),
-    dispatchSyslogStdin: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
+    dispatchEventConnected: () => dispatch({ type: smackAction.CONNECT }),
+    dispatchSyslogStdin: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin }),
   }
 }
