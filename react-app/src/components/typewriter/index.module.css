@@ -6,9 +6,10 @@
 }
 
 .input {
+  background-color: var(--primaryDark500);
   height: 2rem;
   min-width: inherit;
   min-height: inherit;
   border: 1px #000000 solid;
-  padding: 1rem; 
+  padding: 1rem;
 }
