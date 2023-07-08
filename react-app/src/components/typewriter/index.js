@@ -1,13 +1,21 @@
 import styles from './index.module.css'
 import { cmdParser } from '../../cli'
+import { useEffect, useRef } from 'react'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
 export default function Typewriter ({ dispatchCommand, dispatchMessage }) {
+  // get input reference to focus on input because react re-renders many times
+  // so cannot use autofocus HTML property
+  const ref = useRef(null)
+  useEffect(() => {
+    ref.current.focus()
+  }, [])
   return (
     <form className={styles.main} onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage })}>
       <input
         type='text'
         className={styles.input}
+        ref={ref}
       />
     </form>
   )

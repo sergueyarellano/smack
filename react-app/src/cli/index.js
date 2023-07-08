@@ -7,6 +7,7 @@ const COMMAND_NAMES = {
 
 const commands = new Map()
 commands.set(COMMAND_NAMES.HELP, [{ command: '/help', description: 'this is help' }])
+commands.set(COMMAND_NAMES.P2P, [{ command: '/p2p ', description: 'this is help' }])
 
 const commandList = getCommandList(commands)
 

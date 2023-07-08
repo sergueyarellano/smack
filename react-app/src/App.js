@@ -15,11 +15,20 @@ import { cmd } from './cli'
 export default function Smack () {
   // TODO: when command is not a new one, how to avoid Syslog rerender?
   const [{
-    isConnected, egressMessage, ingressMessage, command, syslogStdin
+    isConnected,
+    egressMessage,
+    ingressMessage,
+    command,
+    syslogStdin
   }, dispatch] = useReducer(smackReducer, initialSmackState)
-  const { dispatchEventConnected, dispatchCommand, receiveMessage, sendMessage, dispatchSyslogStdin } = getDispatchers(dispatch)
+  const {
+    dispatchEventConnected,
+    dispatchCommand,
+    receiveMessage,
+    sendMessage,
+    dispatchSyslogStdin
+  } = getDispatchers(dispatch)
 
-  console.log('TCL: Smack -> syslogStdin', syslogStdin)
   // initialize WS connection and pass connect and event handlers
   useEffect(() => {
     initWebSocket({ dispatchMessage: receiveMessage, dispatchEventConnected })
