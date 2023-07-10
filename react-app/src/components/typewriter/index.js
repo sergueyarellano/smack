@@ -43,7 +43,7 @@ function onSubmitWithProps ({ dispatchCommand, dispatchMessage, setCurrentIndex,
       dispatchCommand({ command: parsed._.shift(), parsed })
     } else if (e.target[0].value.length > 0) {
       // TODO: I don't think TY should know the author
-      dispatchMessage({ author: 'me', message: inputValue })
+      dispatchMessage({ message: inputValue })
     }
     // clear the CLI
     e.target[0].value = ''

@@ -13,7 +13,6 @@ import {
 import { cmd } from './cli'
 
 export default function Smack () {
-  // TODO: when command is not a new one, how to avoid Syslog rerender?
   const [{
     isConnected,
     egressMessage,
@@ -41,9 +40,7 @@ export default function Smack () {
   }, [egressMessage, isConnected])
 
   // execute commands
-  useEffect(() => {
-    command && cmd(command, dispatchSyslogStdin)
-  }, [command])
+  useEffect(() => { command && cmd(command, dispatchSyslogStdin) }, [command])
 
   return (
     <main className={styles.main}>

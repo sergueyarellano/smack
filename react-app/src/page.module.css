@@ -1,6 +1,6 @@
 .main {
   display: grid;
-  grid-template-rows: 10fr 0.5fr;
+  grid-template-rows: 90% 10%;
   height: 100vh;
   align-content: flex-start;
   gap: 1rem;

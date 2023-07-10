@@ -22,7 +22,7 @@ export function cmd ({ command, parsed }, dispatchSyslogStdin) {
   // consider using yargs
   switch (command) {
     case COMMAND_NAMES.HELP: {
-      dispatchSyslogStdin(commandList)
+      dispatchSyslogStdin([`/${command}`].concat(commandList))
       break
     }
     default:
