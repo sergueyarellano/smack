@@ -9,13 +9,13 @@ import style from './index.module.css'
 export default function SysLog ({ stdin }) {
   const [log, setLog] = useState([])
   const messagesEndRef = useRef(null)
-  const scrollToBottom = () => {
-    // does not work properly without setTimeout next tick
-    setTimeout(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, 0)
-  }
+
   useEffect(() => {
     // store the incoming log and scroll to the bottom
     stdin && setLog((prev) => [...prev, ...stdin])
+    const scrollToBottom = () => {
+      setTimeout(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, 0)
+    }
     scrollToBottom()
   }, [stdin])
   return (

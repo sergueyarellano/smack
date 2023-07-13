@@ -1,3 +1,8 @@
+.notVisible {
+  display: none;
+}
+
+
 .main {
   position: absolute;
   display: grid;

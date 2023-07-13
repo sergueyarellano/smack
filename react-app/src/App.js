@@ -31,10 +31,23 @@ export default function Smack () {
   } = getDispatchers(dispatch)
 
   const [[localStream, remoteStream], dispatchVideoStreams] = useState([])
+  const [isTerminalVisible, toggleTerminalVisibility] = useState(true)
+
   // initialize WS connection and pass connect and event handlers
   useEffect(() => {
     initWebSocket({ dispatchMessage: receiveMessage, dispatchEventConnected })
     return () => cleanSocketEvents()
+  }, [])
+
+  // initialize key press events
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      e.code === 'KeyK' && e.metaKey && toggleTerminalVisibility(isVisible => !isVisible)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
   }, [])
 
   // Emit egressMessages
@@ -47,13 +60,16 @@ export default function Smack () {
 
   return (
     <main className={styles.main}>
+
       <Terminal
+        isVisible={isTerminalVisible}
         isConnected={isConnected}
         syslogStdin={syslogStdin}
         dispatchCommand={dispatchCommand}
         sendMessage={sendMessage}
       />
-      {/* <VideoConfView localStream={localStream} remoteStream={remoteStream} /> */}
+
+      <VideoConfView localStream={localStream} remoteStream={remoteStream} />
     </main>
   )
 }

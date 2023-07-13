@@ -3,7 +3,7 @@ import { cmdParser } from '../../cli'
 import { useEffect, useRef, useState } from 'react'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Typewriter ({ dispatchCommand, dispatchMessage }) {
+export default function Typewriter ({ dispatchCommand, dispatchMessage, focus }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
@@ -11,7 +11,8 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage }) {
   const ref = useRef(null)
   useEffect(() => {
     ref.current.focus()
-  }, [])
+  }, [focus])
+  // everyTime we search up or down in history, the text gets selected
   useEffect(() => {
     // TODO: If I don't wait till the next tick, it does not select the text
     setTimeout(() => { ref.current.select() }, 0)

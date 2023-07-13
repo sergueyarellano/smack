@@ -32,12 +32,12 @@ export async function cmd ({ command, parsed, raw }, { dispatchSyslogStdin, disp
       if (parsed.o) {
         const rtcConfig = initConfigRTC()
         await setUpMediaSources(rtcConfig.pc).then(dispatchVideoStreams)
-        sendOffer(rtcConfig).then(callId => dispatchSyslogStdin([`<callId> ${callId}`]))
+        sendOffer(rtcConfig).then(callId => dispatchSyslogStdin([{ value: `<callId> ${callId}`, type: 'infoLog' }]))
         syncLogs.push({ value: 'SDP offer sent...\nwaiting for remote ICE candidates...', type: 'infoLog' })
       } else if (parsed.a) {
         const rtcConfig = initConfigRTC()
         await setUpMediaSources(rtcConfig.pc).then(dispatchVideoStreams)
-        sendAnswer(parsed.a, rtcConfig).then(() => dispatchSyslogStdin([`answering to <callId> ${parsed.a}...`]))
+        sendAnswer(parsed.a, rtcConfig).then(() => dispatchSyslogStdin([{ value: `answering to <callId> ${parsed.a}...`, type: 'infoLog' }]))
         syncLogs.push({ value: 'SDP offer sent...\nwaiting for remote ICE candidates...', type: 'infoLog' })
       }
       if (syncLogs.length === 1) {
