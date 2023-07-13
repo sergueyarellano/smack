@@ -1,11 +1,10 @@
 .main {
   display: grid;
-  grid-template-rows: 90% 10%;
+  grid-template-columns: 2fr 10fr;
   height: 100vh;
-  align-content: flex-start;
   gap: 1rem;
   padding: 1rem;
-  background-color: #018281;
+  background-color: var(--greyDark);
 }
 
 .horizontal {

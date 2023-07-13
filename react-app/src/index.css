@@ -9,6 +9,20 @@ html {
 }
 
 :root {
+  --blue1: #0081a7;
+  --green1: #00afb9;
+  --yellow1: #fdfcdc;
+  --brown1: #fed9b7;
+  --red1: #f07167;
+
+  --greyDark: #818181;
+  --greyLight: #c3c3c3;
+  --white: #fdffff;
+  --purple: #010081;
+  --green: #008080;
+  --black: #000000;
+  --pink: #ff0081;
+
   --hue: 100;
   --hueComplement: calc(var(--hue) + 180);
   --hueRightAnalogous: calc(var(--hue) + 30);

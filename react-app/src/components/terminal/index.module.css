@@ -1,0 +1,43 @@
+.main {
+  position: absolute;
+  display: grid;
+  bottom: 0;
+  left: 0;
+  margin: 0 0 1rem 1rem;
+  z-index: 10;
+  height: 30%;
+  width: 30%;
+  grid-template-rows: 1rem 1fr 2rem;
+}
+
+.input {
+  background-color: var(--primaryDark500);
+  height: 2rem;
+  min-width: inherit;
+  min-height: inherit;
+  border: 1px #000000 solid;
+  padding: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  outline: none;
+}
+
+.statusConnected {
+  font-size: small;
+  background-color: var(--greyLight);
+  border: 1px var(--white) solid;
+  padding-left: 3px;
+  font-weight: bold;
+}
+
+.isConnected {
+  color: var(--green);
+}
+
+.isNotConnected {
+  color: var(--pink);
+}

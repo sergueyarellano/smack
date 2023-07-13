@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import style from './index.module.css'
 
-const logStyle = {
-  ERROR: style.errorLog,
-  LOG: style.defaultLog,
-  SUCCESS: style.successLog
-}
-export default function SysLog ({ stdin, isConnected }) {
+// const logStyle = {
+//   ERROR: style.errorLog,
+//   LOG: style.defaultLog,
+//   SUCCESS: style.successLog
+// }
+export default function SysLog ({ stdin }) {
   const [log, setLog] = useState([])
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
@@ -19,18 +19,23 @@ export default function SysLog ({ stdin, isConnected }) {
     scrollToBottom()
   }, [stdin])
   return (
-    <div className={style.main}>
-      <label style={{ color: isConnected ? 'green' : 'red' }}>
-        Web socket {isConnected ? 'connected' : 'disconnected'}
-      </label>
-      <ul className={style.logList}>
-        {log.map(composeLogItem)}
-        <div ref={messagesEndRef} />
-      </ul>
-
+    <div className={style.logList}>
+      {log.map(composeLogItem)}
+      <div ref={messagesEndRef} />
     </div>
   )
 }
-function composeLogItem (value, index) {
-  return <pre key={index}>{value}</pre>
+function composeLogItem (row, index) {
+  let item
+  if (Array.isArray(row)) {
+    item = (
+      <div key={index} className={style.columns}>
+        <pre className={style[row[0].type]}>{row[0].value}</pre>
+        <pre className={style[row[1].type]}>{row[1].value}</pre>
+      </div>
+    )
+  } else {
+    item = <pre className={style[row.type]} key={index}>{row.value}</pre>
+  }
+  return item
 }

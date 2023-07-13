@@ -22,6 +22,7 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage }) {
       className={styles.main}
       onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory })}
     >
+      <label className={styles.prompt}>{'>'}</label>
       <input
         type='text'
         className={styles.input}
@@ -37,13 +38,10 @@ function onSubmitWithProps ({ dispatchCommand, dispatchMessage, setCurrentIndex,
     e.preventDefault()
 
     const inputValue = e.target[0].value
-    if (inputValue.startsWith('/')) {
+    if (e.target[0].value.length > 0) {
       const parsed = cmdParser(inputValue)
       // TODO: shift method is a side effect
-      dispatchCommand({ command: parsed._.shift(), parsed })
-    } else if (e.target[0].value.length > 0) {
-      // TODO: I don't think TY should know the author
-      dispatchMessage({ message: inputValue })
+      dispatchCommand({ command: parsed._.shift(), parsed, raw: inputValue })
     }
     // clear the CLI
     e.target[0].value = ''

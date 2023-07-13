@@ -1,15 +1,32 @@
 .main {
-  min-width: 100%;
-  min-height: 2rem;
-  margin: 0;
-  align-self: center;
+  display: grid;
+  font-family: monospace;
+  height: 100%;
+  width: 100%;
+  border: 1px var(--white) solid;
+  border-top: none;
+  font-size: medium;
 }
 
 .input {
-  background-color: var(--primaryDark500);
-  height: 2rem;
-  min-width: inherit;
-  min-height: inherit;
-  border: 1px #000000 solid;
-  padding: 1rem;
+  font-family: monospace;
+  padding-left: 19px;
+  background-color: var(--black);
+  color: var(--white);
+  border: none;
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+.prompt {
+  font-family: monospace;
+  align-self: center;
+  background-color: var(--black);
+  color: var(--white);
+  grid-column-start: 1;
+  grid-row-start: 1;
+  width: min-content;
+  z-index: 1;
+  padding-left: 3px;
+  padding-bottom: 1px;
 }

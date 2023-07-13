@@ -1,28 +1,62 @@
 .main {
-  background-color: var(--primaryDark500);
-  border: 1px #000000 solid;
+  background-color: var(--black);
+  border: 1px var(--white) solid;
   padding: 1rem;
   overflow: scroll;
 }
 
+.logItem {
+  width: 100%;
+}
+
+pre {
+  margin: 6px 0;
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+
 .logList {
+  background-color: var(--black);
+  border: 1px var(--white) solid;
+  border-bottom: none;
+  padding-left: 3px;
   height: 100%;
   overflow: scroll;
   list-style-type: none;
-  padding: 0;
+  color: var(--greyLight);
 }
 
-.defaultLog {
-  color: blue;
-  padding: 0.5rem;
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  gap: 6px;
 }
 
-.successLog {
-  color: green;
-  padding: 0.5rem;
+.helpCommandLog {
+  color: var(--greyLight);
+  white-space: nowrap;
+}
+
+.helpDescriptionLog {
+  color: var(--greyDark);
+}
+
+.commandLog {
+  color: var(--white);
+}
+
+.infoLog {
+  color: var(--greyLight);
 }
 
 .errorLog {
-  color: red;
-  padding: 0.5rem;
+  color: var(--pink);
 }

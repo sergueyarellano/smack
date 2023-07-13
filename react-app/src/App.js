@@ -12,6 +12,7 @@ import {
 } from './reducers/smackReducer'
 import { cmd } from './cli'
 import VideoConfView from './components/video_conf_view'
+import Terminal from './components/terminal'
 
 export default function Smack () {
   const [{
@@ -46,12 +47,13 @@ export default function Smack () {
 
   return (
     <main className={styles.main}>
-      <div className={styles.horizontal}>
-        <SysLog stdin={syslogStdin} isConnected={isConnected} />
-        {/* <ChatView ingressMessage={ingressMessage} /> */}
-        <VideoConfView localStream={localStream} remoteStream={remoteStream} />
-      </div>
-      <Ty dispatchCommand={dispatchCommand} dispatchMessage={sendMessage} />
+      <Terminal
+        isConnected={isConnected}
+        syslogStdin={syslogStdin}
+        dispatchCommand={dispatchCommand}
+        sendMessage={sendMessage}
+      />
+      {/* <VideoConfView localStream={localStream} remoteStream={remoteStream} /> */}
     </main>
   )
 }

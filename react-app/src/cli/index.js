@@ -7,26 +7,25 @@ const COMMAND_NAMES = {
 }
 
 const commands = new Map()
-commands.set(COMMAND_NAMES.HELP, [{ command: '/help', description: 'this is help' }])
+commands.set(COMMAND_NAMES.HELP, [{ command: 'help', description: 'this is help' }])
 commands.set(COMMAND_NAMES.RTC, [
-  { command: '/rtc -o', description: 'sends an rtc offer, outputs a <callId>' },
-  { command: '/rtc -a <callId>', description: 'sends an rtc answer to <callId>, joins the call' }
+  { command: 'rtc -o', description: 'sends an rtc offer, outputs a <callId>' },
+  { command: 'rtc -a <callId>', description: 'sends an rtc answer to <callId>, joins the call' }
 ])
 
 const commandList = getCommandList(commands)
 
 export function cmdParser (val) {
-  const withoutSlash = val.substring(1)
-
   // minimist expects an array
-  return minimist(withoutSlash.split(/\s/))
+  return minimist(val.split(/\s/))
 }
 
-export async function cmd ({ command, parsed }, { dispatchSyslogStdin, dispatchVideoStreams }) {
+export async function cmd ({ command, parsed, raw }, { dispatchSyslogStdin, dispatchVideoStreams }) {
   // consider using yargs
+  const syncLogs = [{ value: `> ${raw}`, type: 'commandLog' }]
   switch (command) {
     case COMMAND_NAMES.HELP: {
-      dispatchSyslogStdin([`/${command}`].concat(commandList))
+      syncLogs.push(...commandList)
       break
     }
     case COMMAND_NAMES.RTC: {
@@ -34,29 +33,33 @@ export async function cmd ({ command, parsed }, { dispatchSyslogStdin, dispatchV
         const rtcConfig = initConfigRTC()
         await setUpMediaSources(rtcConfig.pc).then(dispatchVideoStreams)
         sendOffer(rtcConfig).then(callId => dispatchSyslogStdin([`<callId> ${callId}`]))
-        dispatchSyslogStdin([`/${command} -o`].concat('SDP offer sent...\nwaiting for remote ICE candidates...'))
-      }
-      if (parsed.a) {
-        console.log('TCL: cmd -> parsed.a', parsed.a)
+        syncLogs.push({ value: 'SDP offer sent...\nwaiting for remote ICE candidates...', type: 'infoLog' })
+      } else if (parsed.a) {
         const rtcConfig = initConfigRTC()
         await setUpMediaSources(rtcConfig.pc).then(dispatchVideoStreams)
         sendAnswer(parsed.a, rtcConfig).then(() => dispatchSyslogStdin([`answering to <callId> ${parsed.a}...`]))
-        dispatchSyslogStdin([`/${command}`].concat('SDP answer sent...\nwaiting for remote ICE candidates...'))
+        syncLogs.push({ value: 'SDP offer sent...\nwaiting for remote ICE candidates...', type: 'infoLog' })
+      }
+      if (syncLogs.length === 1) {
+        syncLogs.push({ value: 'You have to specify at least one argument', type: 'errorLog' })
       }
       break
     }
     default:
-      dispatchSyslogStdin([`${command} is not a command`])
+      syncLogs.push({ value: `${command} is not a command`, type: 'errorLog' })
       break
   }
+  console.log('TCL: cmd -> syncLogs', syncLogs)
+  dispatchSyslogStdin(syncLogs)
 }
 
 function getCommandList (commands) {
   const list = []
-  list.push('Commands')
+  list.push({ value: 'Commands', type: 'infoLog' }, { value: '--------', type: 'infoLog' })
   for (const [cmd, usage] of commands) {
-    for (const val of usage) {
-      list.push(`  ${val.command}\t\t${val.description}`)
+    for (const { command, description } of usage) {
+      // list.push(`${val.command}\t\t${val.description}`)
+      list.push([{ value: command, type: 'helpCommandLog' }, { value: description, type: 'helpDescriptionLog' }])
     }
   }
   return list
