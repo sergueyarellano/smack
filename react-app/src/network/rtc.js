@@ -1,6 +1,26 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, addDoc, getDoc, updateDoc, setDoc, doc, onSnapshot } from 'firebase/firestore'
 
+let pc, localStream, remoteStream
+
+export function closeRTC () {
+  pc.ontrack = null
+  pc.onnicecandidate = null
+  pc.oniceconnectionstatechange = null
+  pc.onsignalingstatechange = null
+  pc.onicegatheringstatechange = null
+  pc.onnotificationneeded = null
+  pc.close()
+  pc = null
+  localStream.getTracks().forEach(track => {
+    track.stop()
+  })
+  localStream = null
+  remoteStream = null
+
+  // TODO: dispatch close event to video call component
+}
+
 export function initConfigRTC () {
   const firebaseConfig = {
     apiKey: 'AIzaSyBJ3Y9VuXhtpsZLiMyEIZ89Pq6WxMsm23g',
@@ -33,14 +53,14 @@ export function initConfigRTC () {
   }
 
   // Global State
-  const pc = new window.RTCPeerConnection(servers)
+  pc = new window.RTCPeerConnection(servers)
 
   return { pc, firestore }
 }
 
 export async function setUpMediaSources (pc) {
-  const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-  const remoteStream = new window.MediaStream()
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  remoteStream = new window.MediaStream()
 
   // Push tracks from local stream to peer connection
   localStream.getTracks().forEach((track) => {
