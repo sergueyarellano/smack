@@ -17,8 +17,6 @@ export function closeRTC () {
   })
   localStream = null
   remoteStream = null
-
-  // TODO: dispatch close event to video call component
 }
 
 export function initConfigRTC () {
@@ -70,7 +68,6 @@ export async function setUpMediaSources (pc) {
   // Pull tracks from remote stream, add to video stream
   // TODO: not firing yet for the one who accepts the call
   pc.ontrack = (event) => {
-    console.log('TCL: pc.ontrack -> event', event)
     event.streams[0].getTracks().forEach((track) => {
       remoteStream.addTrack(track)
     })
@@ -118,7 +115,7 @@ export async function sendOffer ({ firestore, pc }) {
   return callDoc.id
 }
 
-export async function sendAnswer (callId, { firestore, pc }) {
+export async function sendAnswer ({ firestore, pc }, callId) {
   // reference firestore collections for signaling
   const callDoc = doc(collection(firestore, 'calls'), callId)
   const offerCandidates = collection(firestore, `calls/${callDoc.id}/offerCandidates`)
@@ -149,13 +146,9 @@ export async function sendAnswer (callId, { firestore, pc }) {
     snapshot.docChanges().forEach(async (change) => {
       if (change.type === 'added') {
         const data = change.doc.data()
-        console.log('TCL: addRemoteCandidate -> data', data)
         await pc.addIceCandidate(new window.RTCIceCandidate(data))
       }
     })
   }
-}
-
-function sleep (ms) {
-  return new Promise((resolve, reject) => setTimeout(resolve, ms))
+  return callId
 }

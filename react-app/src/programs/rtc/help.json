@@ -1,0 +1,14 @@
+[
+  {
+    "command": "rtc -o",
+    "description": "sends an rtc offer, outputs a <callId>"
+  },
+  {
+    "command": "rtc -a <callId>",
+    "description": "sends an rtc answer to <callId>, joins the call"
+  },
+  {
+    "command": "rtc -c",
+    "description": "closes the call, hangs up"
+  }
+]

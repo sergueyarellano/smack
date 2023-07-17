@@ -13,7 +13,7 @@ export const initialSmackState = {
   command: null,
   egressMessage: null,
   ingressMessage: null,
-  syslogStdin: null
+  ttyStdout: null
 }
 export function smackReducer (state, action) {
   switch (action.type) {
@@ -24,7 +24,7 @@ export function smackReducer (state, action) {
     case smackAction.SEND_MESSAGE:
       return { ...state, egressMessage: action.payload }
     case smackAction.SET_SYSLOG:
-      return { ...state, syslogStdin: action.payload }
+      return { ...state, ttyStdout: action.payload }
     case smackAction.RECEIVE_MESSAGE:
       return { ...state, ingressMessage: action.payload }
     default:
@@ -37,6 +37,6 @@ export function getDispatchers (dispatch) {
     receiveMessage: msg => dispatch({ type: smackAction.RECEIVE_MESSAGE, payload: fmtMessage(msg) }),
     sendMessage: msg => dispatch({ type: smackAction.SEND_MESSAGE, payload: fmtMessage(msg) }),
     dispatchEventConnected: (bool) => dispatch({ type: smackAction.SET_CONNECTED, payload: bool }),
-    dispatchSyslogStdin: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
+    logTty: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
   }
 }

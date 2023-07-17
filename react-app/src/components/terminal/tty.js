@@ -1,9 +1,10 @@
-import styles from './index.module.css'
-import { cmdParser } from '../../cli'
+import minimist from 'minimist'
+import styles from './tty.module.css'
 import { useEffect, useRef, useState } from 'react'
+import { logTypes } from '../../dataFormats'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Typewriter ({ dispatchCommand, dispatchMessage, focus }) {
+export default function Typewriter ({ dispatchCommand, dispatchMessage, logTty, focus }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
@@ -21,7 +22,7 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage, focus })
   return (
     <form
       className={styles.main}
-      onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory })}
+      onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory, logTty })}
     >
       <label className={styles.prompt}>{'>'}</label>
       <input
@@ -34,14 +35,17 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage, focus })
   )
 }
 
-function onSubmitWithProps ({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory }) {
+function onSubmitWithProps ({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory, logTty }) {
   return e => {
     e.preventDefault()
 
     const inputValue = e.target[0].value
     if (e.target[0].value.length > 0) {
-      const parsed = cmdParser(inputValue)
-      // TODO: shift method is a side effect
+      const parsed = minimist(inputValue.split(/\s/))
+
+      // next line prints in the terminal output the user input
+      logTty({ value: `> ${inputValue}`, type: logTypes.COMMAND })
+      // DispatchCommand goes to programs
       dispatchCommand({ command: parsed._.shift(), parsed, raw: inputValue })
     }
     // clear the CLI
@@ -74,4 +78,9 @@ function onKeyDown ({ history, currentIndex, setCurrentIndex }) {
       }
     }
   }
+}
+
+export function cmdParser (val) {
+  // minimist expects an array
+  return minimist(val.split(/\s/))
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import style from './index.module.css'
+import style from './view.module.css'
 
 export default function VideoConfView ({ localStream, remoteStream }) {
   const refLocal = useRef(null)

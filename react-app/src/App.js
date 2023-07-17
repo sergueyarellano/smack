@@ -1,17 +1,14 @@
-import { useEffect, useReducer, useState } from 'react'
-import ChatView from './components/chat_view'
-import SysLog from './components/sys_log'
-import Ty from './components/typewriter'
+import { useEffect, useReducer, useState, Fragment } from 'react'
 import styles from './page.module.css'
 import { initWebSocket, cleanSocketEvents, emit } from './network/socket'
 import { fmtMessage } from './dataFormats'
+import cmd from './programs'
 import {
   getDispatchers,
   initialSmackState,
   smackReducer
 } from './reducers/smackReducer'
-import { cmd } from './cli'
-import VideoConfView from './components/video_conf_view'
+// import { cmd } from './cli'
 import Terminal from './components/terminal'
 
 export default function Smack () {
@@ -20,21 +17,22 @@ export default function Smack () {
     egressMessage,
     ingressMessage,
     command,
-    syslogStdin
+    ttyStdout
   }, dispatch] = useReducer(smackReducer, initialSmackState)
   const {
     dispatchEventConnected,
     dispatchCommand,
     receiveMessage,
     sendMessage,
-    dispatchSyslogStdin
+    logTty
   } = getDispatchers(dispatch)
 
-  const [[localStream, remoteStream], dispatchVideoStreams] = useState([])
   const [isTerminalVisible, toggleTerminalVisibility] = useState(true)
-
+  const [programs, setPrograms] = useState([])
   // initialize WS connection and pass connect and event handlers
   useEffect(() => {
+    // TODO: websockets should be used for RTC signaling and to see who is connected
+    // RTC data channels can be used for chat
     initWebSocket({ dispatchMessage: receiveMessage, dispatchEventConnected })
     return () => cleanSocketEvents()
   }, [])
@@ -56,7 +54,7 @@ export default function Smack () {
   }, [egressMessage, isConnected])
 
   // execute commands
-  useEffect(() => { command && cmd(command, { dispatchSyslogStdin, dispatchVideoStreams }) }, [command])
+  useEffect(() => { command && cmd({ ...command, logTty, setPrograms }) }, [command])
 
   return (
     <main className={styles.main}>
@@ -64,12 +62,12 @@ export default function Smack () {
       <Terminal
         isVisible={isTerminalVisible}
         isConnected={isConnected}
-        syslogStdin={syslogStdin}
+        ttyStdout={ttyStdout}
         dispatchCommand={dispatchCommand}
+        logTty={logTty}
         sendMessage={sendMessage}
       />
-
-      <VideoConfView localStream={localStream} remoteStream={remoteStream} />
+      {programs.map((program, i) => <Fragment key={i}>{program.view}</Fragment>)}
     </main>
   )
 }
