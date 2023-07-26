@@ -1,49 +1,31 @@
-import { logTypes } from '../../dataFormats'
 import { initConfigRTC, setUpMediaSources, sendOffer, sendAnswer, closeRTC } from './api'
 import { literals } from './literals'
+import help from './help.json'
 import VideoConfView from './view'
+export const View = VideoConfView
+export const Name = literals.PROGRAM_NAME
 
-export async function exec ({ parsed, setPrograms, logTty }) {
-  if (parsed.o) {
+export async function exec ({ args, log, onMediaSources, onClose, onHelp }) {
+  if (args._[0] === 'help') {
+    onHelp(help)
+    log(literals.NO_ARGUMENTS)
+  }
+  if (args.o) {
     const rtcConfig = initConfigRTC()
     // important to await for camera permissions before sending offer or answer
-    await getMediaSources(rtcConfig, setPrograms)
-    sendOffer(rtcConfig).then(logCallId(literals.OFFER_SENT, logTty))
-  } else if (parsed.a) {
+    await setUpMediaSources(rtcConfig.pc).then(onMediaSources)
+    sendOffer(rtcConfig)
+      .then((callId) => log(literals.OFFER_SENT(callId)))
+  } else if (args.a) {
     const rtcConfig = initConfigRTC()
-    await getMediaSources(rtcConfig, setPrograms)
-    sendAnswer(rtcConfig, parsed.a).then(logCallId(literals.ANSWER_SENT, logTty))
-  } else if (parsed.c) {
+    await setUpMediaSources(rtcConfig.pc).then(onMediaSources)
+    sendAnswer(rtcConfig, args.a)
+      .then((callId) => log(literals.ANSWER_SENT(callId)))
+  } else if (args.c) {
     closeRTC()
-    setPrograms(removeProgramFromList(literals.PROGRAM_NAME))
-    logTty({ value: literals.CLOSE, type: logTypes.INFO })
+    onClose()
+    log(literals.CLOSE)
   } else {
-    logTty({ value: literals.NO_ARGUMENTS, type: logTypes.INFO })
+    log(literals.NO_ARGUMENTS)
   }
-}
-
-function logCallId (getLiteral, logTty) {
-  return callId => logTty([{ value: getLiteral(callId), type: logTypes.INFO }])
-}
-
-function getMediaSources (rtcConfig, setPrograms) {
-  return setUpMediaSources(rtcConfig.pc)
-    .then(addProgramToList)
-    .then(setPrograms)
-}
-
-// TODO: these functions could be generic
-function addProgramToList ([localStream, remoteStream]) {
-  // return (prev) => [...prev, { name: 'Video p2p', path: 'video_conf_view', props: { localStream, remoteStream } }]
-  return (prev) => [
-    ...prev,
-    {
-      name: literals.PROGRAM_NAME,
-      view: <VideoConfView localStream={localStream} remoteStream={remoteStream} />
-    }
-  ]
-}
-
-function removeProgramFromList (programName) {
-  return (prev) => prev.filter(({ name }) => name !== literals.PROGRAM_NAME)
 }

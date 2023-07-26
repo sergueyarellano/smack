@@ -5,6 +5,7 @@
   "homepage": "./",
   "dependencies": {
     "bufferutil": "^4.0.7",
+    "eventemitter2": "^6.4.9",
     "firebase": "^10.0.0",
     "minimist": "^1.2.8",
     "moment": "^2.29.4",

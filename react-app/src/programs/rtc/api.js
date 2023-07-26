@@ -72,7 +72,7 @@ export async function setUpMediaSources (pc) {
       remoteStream.addTrack(track)
     })
   }
-  return [localStream, remoteStream]
+  return { localStream, remoteStream }
 }
 
 export async function sendOffer ({ firestore, pc }) {

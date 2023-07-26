@@ -1,12 +1,12 @@
 import rtcHelp from '../rtc/help.json'
 import { logTypes } from '../../dataFormats'
-export function exec (logTty) {
+export function exec (log) {
   /**
    * Add new command description here. TODO: automate
    */
   const rtcUsage = getCommandList(rtcHelp)
 
-  logTty([
+  log([
     ...rtcUsage
   ])
 }

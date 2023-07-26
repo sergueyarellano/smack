@@ -37,6 +37,8 @@ export function getDispatchers (dispatch) {
     receiveMessage: msg => dispatch({ type: smackAction.RECEIVE_MESSAGE, payload: fmtMessage(msg) }),
     sendMessage: msg => dispatch({ type: smackAction.SEND_MESSAGE, payload: fmtMessage(msg) }),
     dispatchEventConnected: (bool) => dispatch({ type: smackAction.SET_CONNECTED, payload: bool }),
-    logTty: (stdin) => dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
+    logTty: (stdin) => {
+      dispatch({ type: smackAction.SET_SYSLOG, payload: stdin })
+    }
   }
 }

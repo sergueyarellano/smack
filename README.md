@@ -10,7 +10,7 @@
 to run the server
 ```sh
 # from another shell
-(cd ../smack-be && npm run dev)
+(cd ../smack-be && npm run start)
 ```
 
 react app
