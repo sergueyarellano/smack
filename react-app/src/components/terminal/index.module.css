@@ -31,18 +31,11 @@ select {
   outline: none;
 }
 
-.statusConnected {
+.windowTitle {
   font-size: small;
   background-color: var(--greyLight);
   border: 1px var(--white) solid;
   padding-left: 3px;
   font-weight: bold;
-}
-
-.isConnected {
   color: var(--green);
-}
-
-.isNotConnected {
-  color: var(--pink);
 }

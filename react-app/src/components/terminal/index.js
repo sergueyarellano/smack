@@ -6,8 +6,8 @@ import styles from './index.module.css'
 export default function Terminal ({ isVisible, isConnected, ttyStdout, dispatchCommand, sendMessage, logTty, cleared }) {
   return (
     <div className={`${isVisible ? styles.main : styles.notVisible}`}>
-      <label className={`${isConnected ? styles.isConnected : styles.isNotConnected} ${styles.statusConnected}`}>
-        ws
+      <label className={`${styles.windowTitle}`}>
+        commander v1.0
       </label>
       <Output stdout={ttyStdout} cleared={cleared} />
       <Typewriter dispatchCommand={dispatchCommand} dispatchMessage={sendMessage} logTty={logTty} isVisible={isVisible} />
@@ -15,3 +15,5 @@ export default function Terminal ({ isVisible, isConnected, ttyStdout, dispatchC
 
   )
 }
+
+// TODO: would be a good thing to create a component window with layout and draggable

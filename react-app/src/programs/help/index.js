@@ -1,6 +1,6 @@
 import help from './description.json'
 import rtc from '../rtc/description.json'
-import login from '../login/description.json'
+import ws from '../ws/description.json'
 import clear from '../clear/description.json'
 import { logTypes } from '../../dataFormats'
 export function exec (log) {
@@ -12,7 +12,7 @@ export function exec (log) {
     { value: 'use `<program> help` to know more about a program', type: logTypes.COMMAND },
     mapDescription(help),
     mapDescription(rtc),
-    mapDescription(login),
+    mapDescription(ws),
     mapDescription(clear)
   ])
 }

@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { flushSync } from 'react-dom'
 import { logTypes } from './dataFormats'
-import { emit } from './network/socket'
 import { emitter } from './network/events'
 import cmd from './programs'
 
@@ -13,7 +12,7 @@ export default function useExecCommands ({ command, setPrograms, logTty, clearTe
         // and logs were lost. We think it's a thing of react 18
         flushSync(() => logTty(value))
       } else {
-        flushSync(logTty({ value, type: logTypes.INFO }))
+        flushSync(() => logTty({ value, type: logTypes.INFO }))
       }
     }
     // we use a listener for log events, so we can force update the DOM each time
@@ -26,7 +25,6 @@ export default function useExecCommands ({ command, setPrograms, logTty, clearTe
       ...command,
       log: emitter.emit.bind(emitter, 'log'),
       setPrograms,
-      emit,
       clearTerminal
     })
     return () => {

@@ -1,0 +1,6 @@
+[
+  {
+    "command": "ws -u <username>",
+    "description": "connects with web socket and identifies as <username>"
+  }
+]
