@@ -10,7 +10,8 @@ const smackAction = {
   SET_USERS: 'SET_USERS',
   TOGGLE_TERMINAL_VISIBILITY: 'TOGGLE_TERMINAL_VISIBILITY',
   ADD_PROGRAM: 'ADD_PROGRAM',
-  DELETE_PROGRAM: 'DELETE_PROGRAM'
+  DELETE_PROGRAM: 'DELETE_PROGRAM',
+  CLEAR_TERMINAL: 'CLEAR_TERMINAL'
 }
 const initialSmackState = {
   isConnected: false,
@@ -19,10 +20,13 @@ const initialSmackState = {
   ingressMessage: null,
   ttyStdout: null,
   isTerminalVisible: true,
-  programs: []
+  programs: [],
+  termCleared: 0
 }
 function smackReducer (state, action) {
   switch (action.type) {
+    case smackAction.CLEAR_TERMINAL:
+      return { ...state, termCleared: ++state.termCleared }
     case smackAction.SET_CONNECTED:
       return { ...state, isConnected: action.payload }
     case smackAction.SET_COMMAND:
@@ -47,6 +51,8 @@ function smackReducer (state, action) {
 export default function useSmackReducer () {
   const [state, dispatch] = useReducer(smackReducer, initialSmackState)
   const dispatchers = {
+    clearTerminal: useCallback(() =>
+      dispatch({ type: smackAction.CLEAR_TERMINAL }), [dispatch]),
     dispatchCommand: useCallback(cmd =>
       dispatch({ type: smackAction.SET_COMMAND, payload: cmd }), [dispatch]),
     receiveMessage: useCallback(msg =>

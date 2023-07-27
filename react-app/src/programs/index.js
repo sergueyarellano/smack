@@ -1,10 +1,11 @@
 import { logTypes } from '../dataFormats'
 
-export default function cmd ({ command, parsed, setPrograms, log, emit }) {
+export default function cmd ({ command, parsed, setPrograms, log, emit, clearTerminal }) {
   // lazy load new modules when a command is triggered
   // TODO: if needed we could use React.Suspense
   const programs = {
     help: () => import('./help').then(module => module.exec(log)),
+    clear: () => clearTerminal(),
     rtc: () => import('./rtc').then(module => module.exec({
       args: parsed,
       onMediaSources: (videoStreams) =>

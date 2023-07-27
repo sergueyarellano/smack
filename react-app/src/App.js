@@ -7,7 +7,7 @@ import useInitSocket from './app.hook.initSocket'
 import useSmackReducer from './app.hook.reducer'
 
 export default function Smack () {
-  const [{ isConnected, command, ttyStdout, isTerminalVisible, programs },
+  const [{ isConnected, command, ttyStdout, isTerminalVisible, programs, termCleared },
     {
       dispatchEventConnected,
       dispatchCommand,
@@ -15,17 +15,19 @@ export default function Smack () {
       sendMessage,
       logTty,
       toggleTerminalVisibility,
-      setPrograms
+      setPrograms,
+      clearTerminal
     }] = useSmackReducer()
 
   useInitSocket({ receiveMessage, dispatchEventConnected })
   useKeyPressEvents({ toggleTerminalVisibility })
-  useExecCommands({ command, setPrograms, logTty })
+  useExecCommands({ command, setPrograms, logTty, clearTerminal })
 
   return (
     <main className={styles.main}>
 
       <Terminal
+        cleared={termCleared}
         isVisible={isTerminalVisible}
         isConnected={isConnected}
         ttyStdout={ttyStdout}

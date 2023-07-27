@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import style from './output.module.css'
 
-export default function Output ({ stdout, rawCommand }) {
+export default function Output ({ stdout, rawCommand, cleared }) {
   const [log, setLog] = useState([])
   const messagesEndRef = useRef(null)
 
@@ -14,6 +14,7 @@ export default function Output ({ stdout, rawCommand }) {
     // Scroll to bottom
     setTimeout(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, 0)
   }, [stdout, rawCommand])
+  useEffect(() => setLog([]), [cleared])
   return (
     <div className={style.logList}>
       {log.map(composeLogItem)}

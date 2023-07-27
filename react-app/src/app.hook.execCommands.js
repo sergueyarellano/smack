@@ -5,7 +5,7 @@ import { emit } from './network/socket'
 import { emitter } from './network/events'
 import cmd from './programs'
 
-export default function useExecCommands ({ command, setPrograms, logTty }) {
+export default function useExecCommands ({ command, setPrograms, logTty, clearTerminal }) {
   useEffect(() => {
     const onLog = function (value) {
       if (typeof value === 'object') {
@@ -26,10 +26,11 @@ export default function useExecCommands ({ command, setPrograms, logTty }) {
       ...command,
       log: emitter.emit.bind(emitter, 'log'),
       setPrograms,
-      emit
+      emit,
+      clearTerminal
     })
     return () => {
       emitter.off('log', onLog)
     }
-  }, [command, logTty, setPrograms])
+  }, [command, logTty, setPrograms, clearTerminal])
 }
