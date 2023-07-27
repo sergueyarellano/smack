@@ -8,11 +8,8 @@ export default function cmd ({ command, parsed, setPrograms, log, emit }) {
     rtc: () => import('./rtc').then(module => module.exec({
       args: parsed,
       onMediaSources: (videoStreams) =>
-        setPrograms((prev) =>
-          [...prev, { view: <module.View {...videoStreams} />, name: module.Name }]),
-      onClose: () => setPrograms((prev) =>
-        prev.filter(({ name }) => name !== module.Name)
-      ),
+        setPrograms({ view: <module.View {...videoStreams} />, name: module.Name, type: 'add' }),
+      onClose: () => setPrograms({ name: module.Name, type: 'delete' }),
       onHelp: (help) => log(help.reduce((acc, { command, description }) => {
         return acc.concat(
           { value: command, type: logTypes.HELP_COMMAND },
