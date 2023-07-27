@@ -10,12 +10,12 @@ export default function cmd ({ command, parsed, setPrograms, log, emit }) {
       onMediaSources: (videoStreams) =>
         setPrograms({ view: <module.View {...videoStreams} />, name: module.Name, type: 'add' }),
       onClose: () => setPrograms({ name: module.Name, type: 'delete' }),
-      onHelp: (help) => log(help.reduce((acc, { command, description }) => {
+      onHelp: (help) => log([help.reduce((acc, { command, description }) => {
         return acc.concat(
           { value: command, type: logTypes.HELP_COMMAND },
           { value: description, type: logTypes.HELP_DESCRIPTION }
         )
-      }, [])),
+      }, [])]),
       log
     })),
     login: () => import('./login').then(module => module.exec({ log, emit, parsed })),

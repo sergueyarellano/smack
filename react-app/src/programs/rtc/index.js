@@ -8,9 +8,7 @@ export const Name = literals.PROGRAM_NAME
 export async function exec ({ args, log, onMediaSources, onClose, onHelp }) {
   if (args._[0] === 'help') {
     onHelp(help)
-    log(literals.NO_ARGUMENTS)
-  }
-  if (args.o) {
+  } else if (args.o) {
     const rtcConfig = initConfigRTC()
     // important to await for camera permissions before sending offer or answer
     await setUpMediaSources(rtcConfig.pc).then(onMediaSources)

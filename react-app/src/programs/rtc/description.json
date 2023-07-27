@@ -1,0 +1,4 @@
+{
+  "name": "rtc",
+  "description": "creates a webRTC video call between peers"
+}

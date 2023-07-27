@@ -1,19 +1,23 @@
-import rtcHelp from '../rtc/help.json'
+import rtcDescription from '../rtc/description.json'
+import loginDescription from '../login/description.json'
 import { logTypes } from '../../dataFormats'
 export function exec (log) {
   /**
    * Add new command description here. TODO: automate
    */
-  const rtcUsage = getCommandList(rtcHelp)
+  const rtcUsage = mapDescription(rtcDescription)
+  const loginUsage = mapDescription(loginDescription)
 
   log([
-    ...rtcUsage
+    { value: 'use `<program> help` to know more about a program', type: logTypes.COMMAND },
+    rtcUsage,
+    loginUsage
   ])
 }
 
-function getCommandList (commands) {
-  return commands.map(({ command, description }) => [
-    { value: command, type: logTypes.HELP_COMMAND },
+function mapDescription ({ name, description }) {
+  return [
+    { value: name, type: logTypes.HELP_COMMAND },
     { value: description, type: logTypes.HELP_DESCRIPTION }
-  ])
+  ]
 }
