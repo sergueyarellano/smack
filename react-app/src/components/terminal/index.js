@@ -2,17 +2,20 @@ import Output from './output'
 import Typewriter from './tty'
 import styles from './index.module.css'
 import Draggable from 'react-draggable'
+import { useState } from 'react'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
 export default function Terminal ({ isVisible, isConnected, ttyStdout, dispatchCommand, sendMessage, logTty }) {
+  const [clicked, setClicked] = useState(0)
+
   return (
     <Draggable>
-      <div className={`${isVisible ? styles.main : styles.notVisible}`}>
+      <div onClick={() => setClicked((prev) => ++prev)} className={`${isVisible ? styles.main : styles.notVisible}`}>
         <label className={`${isConnected ? styles.isConnected : styles.isNotConnected} ${styles.statusConnected}`}>
           ws
         </label>
         <Output stdout={ttyStdout} />
-        <Typewriter dispatchCommand={dispatchCommand} dispatchMessage={sendMessage} logTty={logTty} focus={isVisible} />
+        <Typewriter dispatchCommand={dispatchCommand} dispatchMessage={sendMessage} logTty={logTty} isVisible={isVisible} clicked={clicked} />
       </div>
     </Draggable>
   )
