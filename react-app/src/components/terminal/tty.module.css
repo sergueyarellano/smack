@@ -1,11 +1,17 @@
 .main {
   display: grid;
   font-family: monospace;
-  height: 100%;
-  width: 100%;
+  min-height: 1.5rem;
   border: 1px var(--white) solid;
   border-top: none;
   font-size: medium;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  outline: none;
 }
 
 .input {

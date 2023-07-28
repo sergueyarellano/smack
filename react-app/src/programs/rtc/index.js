@@ -7,7 +7,7 @@ export const Name = literals.PROGRAM_NAME
 
 export async function exec ({ args, log, onView, onClose, onHelp }) {
   if (args._[0] === 'help') {
-    onHelp(help)
+    onHelp(help.commands)
   } else if (args.o) {
     const rtcConfig = initConfigRTC()
     // important to await for camera permissions before sending offer or answer

@@ -1,0 +1,42 @@
+.notVisible {
+  display: none;
+}
+
+.topLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.topRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.bottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.main {
+  display: grid;
+  margin: 0 0 1rem 1rem;
+  grid-template-rows: 1rem 1fr;
+}
+
+.windowTitle {
+  font-size: small;
+  background-color: var(--greyLight);
+  border: 1px var(--white) solid;
+  padding-left: 3px;
+  font-weight: bold;
+  color: var(--green);
+}

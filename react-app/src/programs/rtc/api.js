@@ -66,7 +66,6 @@ export async function setUpMediaSources (pc) {
   })
 
   // Pull tracks from remote stream, add to video stream
-  // TODO: not firing yet for the one who accepts the call
   pc.ontrack = (event) => {
     event.streams[0].getTracks().forEach((track) => {
       remoteStream.addTrack(track)

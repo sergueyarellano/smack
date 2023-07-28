@@ -1,7 +1,7 @@
-import help from './description.json'
-import rtc from '../rtc/description.json'
-import ws from '../ws/description.json'
-import clear from '../clear/description.json'
+import help from './help.json'
+import rtc from '../rtc/help.json'
+import ws from '../ws/help.json'
+import clear from '../clear/help.json'
 import { logTypes } from '../../dataFormats'
 export function exec (log) {
   /**

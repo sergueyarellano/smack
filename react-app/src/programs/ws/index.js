@@ -9,7 +9,7 @@ let socket
 
 export function exec ({ args, log, logE, onHelp, onView, onClose }) {
   if (args._[0] === 'help') {
-    onHelp(help)
+    onHelp(help.commands)
   } else if (args.u) {
     // option has to come with a username, not as a flag
     if (typeof args.u === 'boolean') {

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import style from './view.module.css'
-import Draggable from 'react-draggable'
+import Window from '../../components/window'
 
 export default function VideoConfView ({ localStream, remoteStream }) {
   const refLocal = useRef(null)
@@ -16,13 +16,12 @@ export default function VideoConfView ({ localStream, remoteStream }) {
     }
   }, [remoteStream])
   return (
-    <div className={style.main}>
-      <Draggable>
+
+    <Window title='rtc call' position='topLeft'>
+      <div className={style.main}>
         <video className={style.vid} id='webcamVideo' autoPlay playsInline muted ref={refLocal} />
-      </Draggable>
-      <Draggable>
         <video className={style.vid} id='remoteVideo' autoPlay playsInline ref={refRemote} />
-      </Draggable>
-    </div>
+      </div>
+    </Window>
   )
 }

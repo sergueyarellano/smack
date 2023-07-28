@@ -6,29 +6,25 @@ import cmd from './programs'
 
 export default function useExecCommands ({ command, setPrograms, logTty, clearTerminal }) {
   useEffect(() => {
-    const onLog = function (value) {
-      if (typeof value === 'object') {
-        // TODO: we force dom update because batching 2 hook calls is not working
-        // and logs were lost. We think it's a thing of react 18
-        flushSync(() => logTty(value))
-      } else {
-        flushSync(() => logTty({ value, type: logTypes.INFO }))
-      }
-    }
-    // we use a listener for log events, so we can force update the DOM each time
-    emitter.on('log', onLog)
-    /**
-     * cmd accepts:
-     * log: function, in react we need an emitter for logs since a dispatcher would not render several times
-     */
-    command && cmd({
-      ...command,
-      log: emitter.emit.bind(emitter, 'log'),
-      setPrograms,
-      clearTerminal
-    })
+    const [log, onLog] = getLog(logTty)
+    command && cmd({ ...command, log, setPrograms, clearTerminal })
     return () => {
       emitter.off('log', onLog)
     }
   }, [command, logTty, setPrograms, clearTerminal])
+}
+
+function getLog (logTty) {
+  const onLog = function (value) {
+    if (typeof value === 'object') {
+      // TODO: we force dom update because batching 2 hook calls is not working
+      // and logs were lost. We think it's a thing of react 18
+      flushSync(() => logTty(value))
+    } else {
+      flushSync(() => logTty({ value, type: logTypes.INFO }))
+    }
+  }
+  emitter.on('log', onLog)
+
+  return [emitter.emit.bind(emitter, 'log'), onLog]
 }
