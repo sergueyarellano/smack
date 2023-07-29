@@ -4,7 +4,7 @@ export default function cmd ({ command, parsed, setPrograms, log, clearTerminal 
   const programs = {
     help: () => import('./help').then(module => module.exec(log)),
     clear: () => clearTerminal(),
-    rtc: () => import('./rtc').then(onModuleLoaded({ args: parsed, log, setPrograms })),
+    rtc: () => import('./rtc').then(onModuleLoaded({ args: parsed, log, setPrograms, path: 'rtc' })),
     ws: () => import('./ws').then(onModuleLoaded({ args: parsed, log, setPrograms })),
     default: () => log([{ value: 'not a command', type: logTypes.ERROR }])
   }
@@ -18,10 +18,14 @@ function onModuleLoaded ({ args, log, setPrograms }) {
     args,
     onHelp: onHelp(log),
     onView: (props) =>
-      // TODO: use React Suspense?
-      setPrograms({ view: <module.View {...props} />, name: module.Name, type: 'add' }),
+      // TODO: separate views from programs
+      setPrograms({ name: module.Name, type: 'add', props }),
+    onStream: (props) =>
+      setPrograms({ name: module.Name, type: 'update_props', props }),
     onClose: () => setPrograms({ name: module.Name, type: 'delete' }),
-    log
+    log,
+    logE: (msg) => log({ value: msg, type: logTypes.ERROR })
+
   })
 }
 

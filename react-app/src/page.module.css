@@ -1,5 +1,7 @@
 .main {
   display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  grid-template-rows: repeat(3, minmax(200px, 1fr));
   height: 100vh;
   gap: 1rem;
   padding: 1rem;

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Suspense, lazy } from 'react'
 import styles from './page.module.css'
 import Terminal from './components/terminal'
 import useExecCommands from './app.hook.execCommands'
@@ -9,7 +9,6 @@ export default function Smack () {
   const [{ isConnected, command, ttyStdout, isTerminalVisible, programs, termCleared },
     {
       dispatchCommand,
-      sendMessage,
       logTty,
       toggleTerminalVisibility,
       setPrograms,
@@ -18,7 +17,14 @@ export default function Smack () {
 
   useKeyPressEvents({ toggleTerminalVisibility })
   useExecCommands({ command, setPrograms, logTty, clearTerminal })
-
+  const activePrograms = programs.map((program, key) => {
+    const Prog = lazy(() => import(`./components/${program.name}`))
+    return (
+      <Suspense key={key} fallback={<div>Loading...</div>}>
+        <Prog {...program.props} />
+      </Suspense>
+    )
+  })
   return (
     <main className={styles.main}>
 
@@ -29,9 +35,8 @@ export default function Smack () {
         ttyStdout={ttyStdout}
         dispatchCommand={dispatchCommand}
         logTty={logTty}
-        sendMessage={sendMessage}
       />
-      {programs.map((program, i) => <Fragment key={i}>{program.view}</Fragment>)}
+      {activePrograms}
     </main>
   )
 }

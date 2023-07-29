@@ -17,11 +17,7 @@ pre {
 }
 
 .logList {
-  background-color: var(--black);
-  border: 1px var(--white) solid;
   border-bottom: none;
-  padding-left: 3px;
-  min-height: 5rem;
   overflow: scroll;
   list-style-type: none;
   color: var(--greyLight);

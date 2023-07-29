@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { logTypes } from '../../dataFormats'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Typewriter ({ dispatchCommand, dispatchMessage, logTty, isVisible }) {
+export default function Typewriter ({ dispatchCommand, logTty, isVisible }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
@@ -22,7 +22,7 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage, logTty, 
   return (
     <form
       className={styles.main}
-      onSubmit={onSubmitWithProps({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory, logTty })}
+      onSubmit={onSubmitWithProps({ dispatchCommand, setCurrentIndex, setHistory, logTty })}
     >
       <label className={styles.prompt}>{'>'}</label>
       <input
@@ -35,7 +35,7 @@ export default function Typewriter ({ dispatchCommand, dispatchMessage, logTty, 
   )
 }
 
-function onSubmitWithProps ({ dispatchCommand, dispatchMessage, setCurrentIndex, setHistory, logTty }) {
+function onSubmitWithProps ({ dispatchCommand, setCurrentIndex, setHistory, logTty }) {
   return e => {
     e.preventDefault()
 

@@ -1,10 +1,9 @@
 .main {
   display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
   font-family: monospace;
-  min-height: 1.5rem;
-  border: 1px var(--white) solid;
   border-top: none;
-  font-size: medium;
 }
 
 input[type="text"],
@@ -15,24 +14,16 @@ select {
 }
 
 .input {
+  width: 100%;
   font-family: monospace;
-  padding-left: 19px;
-  background-color: var(--black);
+  background-color: transparent;
   color: var(--white);
   border: none;
-  grid-column-start: 1;
-  grid-row-start: 1;
 }
 
 .prompt {
   font-family: monospace;
-  align-self: center;
-  background-color: var(--black);
+  background-color: transparent;
   color: var(--white);
-  grid-column-start: 1;
-  grid-row-start: 1;
-  width: min-content;
   z-index: 1;
-  padding-left: 3px;
-  padding-bottom: 1px;
 }

@@ -17,6 +17,9 @@ export function closeRTC () {
   })
   localStream = null
   remoteStream = null
+  // remoteStreams.forEach((stream, i) => {
+  //   remoteStreams[i] = null
+  // })
 }
 
 export function initConfigRTC () {
@@ -56,10 +59,9 @@ export function initConfigRTC () {
   return { pc, firestore }
 }
 
-export async function setUpMediaSources (pc) {
+export async function setUpMediaSources (pc, onStream) {
   localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
   remoteStream = new window.MediaStream()
-
   // Push tracks from local stream to peer connection
   localStream.getTracks().forEach((track) => {
     pc.addTrack(track, localStream)
@@ -70,8 +72,9 @@ export async function setUpMediaSources (pc) {
     event.streams[0].getTracks().forEach((track) => {
       remoteStream.addTrack(track)
     })
+    onStream({ remoteStreams: [remoteStream] })
   }
-  return { localStream, remoteStream }
+  return { localStream, remoteStreams: [] }
 }
 
 export async function sendOffer ({ firestore, pc }) {

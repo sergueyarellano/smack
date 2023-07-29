@@ -1,6 +1,9 @@
 .main {
   display: grid;
-  width: 30vw;
-  height: 30vh;
-  grid-template-rows: 10fr 1fr;
+  grid-template-rows: 10fr 1.5rem;
+  border: 1px var(--white) solid;
+  font-size: medium;
+  background-color: var(--black);
+  padding-left: 3px;
+  overflow: auto;
 }
