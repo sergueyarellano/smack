@@ -1,0 +1,30 @@
+.main {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+  font-family: monospace;
+  border-top: none;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  outline: none;
+}
+
+.input {
+  width: 100%;
+  font-family: monospace;
+  background-color: transparent;
+  color: var(--white);
+  border: none;
+  padding-left: 1ch;
+}
+
+.prompt {
+  font-family: monospace;
+  background-color: transparent;
+  color: var(--white);
+  z-index: 1;
+}

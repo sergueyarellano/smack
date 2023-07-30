@@ -1,0 +1,39 @@
+.main {
+  display: grid;
+  grid-template-rows: 10fr 1.5em;
+  font-size: medium;
+  padding-left: 3px;
+  overflow: auto;
+}
+
+.label {
+  font-size: x-small;
+  color: var(--greyDark);
+  align-self: end;
+  justify-self: end;
+  margin-right: 1em;
+  position: fixed;
+  top: 0.1em;
+}
+
+.ul {
+  list-style-type: none;
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  display: grid;
+  grid-auto-rows: max-content;
+}
+
+pre {
+  margin: 6px 0;
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}

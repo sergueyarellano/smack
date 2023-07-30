@@ -1,0 +1,14 @@
+.form {
+  padding: 1em;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 1rem;
+}
+
+.input {
+  width: 100%;
+  font-family: monospace;
+  background-color: var(--greyLight);
+  border: 1px solid var(--greyDark);
+  color: var(--white);
+}

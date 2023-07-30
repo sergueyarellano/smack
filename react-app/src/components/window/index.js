@@ -5,14 +5,22 @@ const Container = styled.div`
   grid-template-rows: 1rem 1fr; 
   grid-column: ${props => props.$column};
   grid-row: ${props => props.$row};
-  overflow: auto;
+  overflow: hidden;
   resize: both;
   min-width: 130px;
   min-height: 180px;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 13px 13px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(3.1px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
 `
 
 const Title = styled.label`
-  font-size: small;
+  font-size: 0.6rem;
   background-color: var(--greyLight);
   border: 1px var(--white) solid;
   padding-left: 3px;

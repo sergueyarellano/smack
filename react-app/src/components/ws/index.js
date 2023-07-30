@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import Window from '../window'
-import style from './view.module.css'
+import InputName from './name.js'
+import ConnectedUsers from './connected'
 
-export default function WSView ({ users }) {
+export default function WSView () {
+  const [me, setMe] = useState(null)
+
   return (
-    <Window title='rtc call' position='bottomRight'>
-
-      <div className={style.main}>
-        this is WS view
-      </div>
+    <Window title='WS' row='2' column='2'>
+      {me === null
+        ? <InputName setMe={setMe} />
+        : <ConnectedUsers me={me} />}
     </Window>
   )
 }

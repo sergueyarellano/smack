@@ -1,0 +1,33 @@
+.ul {
+  list-style-type: none;
+  padding-inline-start: 0.5em;
+  padding-inline-end: 0.5em;
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  overflow: auto;
+  justify-items: left;
+}
+
+pre {
+  margin: 6px 0;
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+
+.button {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  align-items: center;
+  gap: 0.5em;
+  justify-items: left;
+  max-width: 14em;
+}

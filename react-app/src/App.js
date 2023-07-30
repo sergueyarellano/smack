@@ -1,40 +1,25 @@
-import { Suspense, lazy } from 'react'
 import styles from './page.module.css'
-import Terminal from './components/terminal'
-import useExecCommands from './app.hook.execCommands'
-import useKeyPressEvents from './app.hook.keyPressEvents'
-import useSmackReducer from './app.hook.reducer'
+import ProgramSelector from './components/selector'
+import { Suspense, lazy, useState } from 'react'
+
+const availablePrograms = {
+  RTC: lazy(() => import('./components/rtc')),
+  WS: lazy(() => import('./components/ws'))
+}
 
 export default function Smack () {
-  const [{ isConnected, command, ttyStdout, isTerminalVisible, programs, termCleared },
-    {
-      dispatchCommand,
-      logTty,
-      toggleTerminalVisibility,
-      setPrograms,
-      clearTerminal
-    }] = useSmackReducer()
-  console.log('TCL: Smack -> programs', programs)
-
-  useKeyPressEvents({ toggleTerminalVisibility })
-  useExecCommands({ command, setPrograms, logTty, clearTerminal })
+  const [programs, setPrograms] = useState([])
   const activePrograms = programs.map((program, key) => {
-    const Prog = program.View
+    const Prog = availablePrograms[program.name]
     return (
-      <Prog key={key} {...program.props} />
+      <Suspense key={key} fallback={<div>Loading...</div>}>
+        <Prog />
+      </Suspense>
     )
   })
   return (
     <main className={styles.main}>
-
-      <Terminal
-        cleared={termCleared}
-        isVisible={isTerminalVisible}
-        isConnected={isConnected}
-        ttyStdout={ttyStdout}
-        dispatchCommand={dispatchCommand}
-        logTty={logTty}
-      />
+      <ProgramSelector setPrograms={setPrograms} />
       {activePrograms}
     </main>
   )
