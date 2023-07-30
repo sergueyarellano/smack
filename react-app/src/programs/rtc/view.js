@@ -1,6 +1,6 @@
-import Video from '../video'
+import Video from '../../components/video'
 import style from './view.module.css'
-import Window from '../window'
+import Window from '../../components/window'
 
 export default function VideoConfView ({ localStream, remoteStreams = [] }) {
   return (

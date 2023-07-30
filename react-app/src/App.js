@@ -14,15 +14,14 @@ export default function Smack () {
       setPrograms,
       clearTerminal
     }] = useSmackReducer()
+  console.log('TCL: Smack -> programs', programs)
 
   useKeyPressEvents({ toggleTerminalVisibility })
   useExecCommands({ command, setPrograms, logTty, clearTerminal })
   const activePrograms = programs.map((program, key) => {
-    const Prog = lazy(() => import(`./components/${program.name}`))
+    const Prog = program.View
     return (
-      <Suspense key={key} fallback={<div>Loading...</div>}>
-        <Prog {...program.props} />
-      </Suspense>
+      <Prog key={key} {...program.props} />
     )
   })
   return (

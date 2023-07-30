@@ -36,11 +36,11 @@ function smackReducer (state, action) {
     case smackAction.UPDATE_PROPS:
       return {
         ...state,
-        programs: state.programs.map(({ name, props }) => {
+        programs: state.programs.map(({ name, props, View }) => {
           if (name === action.payload.name) {
-            return { name, props: { ...props, ...action.payload.props } }
+            return { name, View, props: { ...props, ...action.payload.props } }
           }
-          return { name, props }
+          return { name, View, props }
         })
       }
     default:

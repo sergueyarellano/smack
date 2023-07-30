@@ -19,7 +19,7 @@ function onModuleLoaded ({ args, log, setPrograms }) {
     onHelp: onHelp(log),
     onView: (props) =>
       // TODO: separate views from programs
-      setPrograms({ name: module.Name, type: 'add', props }),
+      setPrograms({ name: module.Name, type: 'add', props, View: module.View }),
     onStream: (props) =>
       setPrograms({ name: module.Name, type: 'update_props', props }),
     onClose: () => setPrograms({ name: module.Name, type: 'delete' }),

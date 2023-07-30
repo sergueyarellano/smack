@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { logTypes } from '../../dataFormats'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Typewriter ({ dispatchCommand, logTty, isVisible }) {
+export default function Typewriter ({ dispatchCommand, logTty, focusOnVisible }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
@@ -12,7 +12,7 @@ export default function Typewriter ({ dispatchCommand, logTty, isVisible }) {
   const ref = useRef(null)
   useEffect(() => {
     ref.current.focus()
-  }, [isVisible])
+  }, [focusOnVisible])
   // everyTime we search up or down in history, the text gets selected
   useEffect(() => {
     // TODO: If I don't wait till the next tick, it does not select the text

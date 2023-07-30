@@ -1,6 +1,8 @@
 import { initConfigRTC, setUpMediaSources, sendOffer, sendAnswer, closeRTC } from './api'
 import { literals } from './literals'
 import help from './help.json'
+import view from './view'
+export const View = view
 export const Name = literals.PROGRAM_NAME
 
 export async function exec ({ args, log, onView, onClose, onHelp, onStream }) {

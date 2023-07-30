@@ -1,6 +1,8 @@
 import { initWebSocket } from './socket'
 import help from './help.json'
 import { literals } from './literals'
+import view from './view'
+export const View = view
 export const Name = literals.PROGRAM_NAME
 
 let socket
