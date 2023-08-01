@@ -2,18 +2,37 @@
   display: grid;
   grid-template-rows: 10fr 1.5em;
   font-size: medium;
-  padding-left: 3px;
+  padding: 0 3px;
   overflow: auto;
 }
 
-.label {
-  font-size: x-small;
+.videocam {
+  position: fixed;
+  top: 0.1em;
+  right: 0.3em;
+  font-size: 1.2rem;
+  color: var(--pink);
+}
+
+.userList {
+  position: fixed;
+  top: 0.1em;
+  left: 0.3em;
+  font-size: 1.2rem;
+  color: var(--pink);
+}
+
+.username {
+  width: 100%;
+  font-size: small;
   color: var(--greyDark);
   align-self: end;
   justify-self: end;
-  margin-right: 1em;
   position: fixed;
   top: 0.1em;
+  text-align: center;
+  z-index: -1;
+  background-color: var(--greyLight);
 }
 
 .ul {

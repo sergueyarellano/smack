@@ -2,7 +2,7 @@ import styles from './pChat.input.module.css'
 import { useEffect, useRef, useState } from 'react'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Input ({ sendMessage, pChatWith }) {
+export default function Input ({ sendMessage, userID }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
@@ -18,7 +18,7 @@ export default function Input ({ sendMessage, pChatWith }) {
   return (
     <form
       className={styles.main}
-      onSubmit={onSubmitWithProps({ sendMessage, setCurrentIndex, setHistory, pChatWith })}
+      onSubmit={onSubmitWithProps({ sendMessage, setCurrentIndex, setHistory, userID })}
     >
       <label className={styles.prompt}>{'>'}</label>
       <input
@@ -31,13 +31,13 @@ export default function Input ({ sendMessage, pChatWith }) {
   )
 }
 
-function onSubmitWithProps ({ sendMessage, setCurrentIndex, setHistory, pChatWith }) {
+function onSubmitWithProps ({ sendMessage, setCurrentIndex, setHistory, userID }) {
   return e => {
     e.preventDefault()
 
     const inputValue = e.target[0].value
     if (e.target[0].value.length > 0) {
-      sendMessage({ content: inputValue, userID: pChatWith.userID })
+      sendMessage({ content: inputValue, userID })
     }
     // clear the CLI
     e.target[0].value = ''

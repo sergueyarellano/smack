@@ -7,7 +7,7 @@ export default function WSView () {
   const [me, setMe] = useState(null)
 
   return (
-    <Window title='WS' row='2' column='2'>
+    <Window title='' row='2' column='2'>
       {me === null
         ? <InputName setMe={setMe} />
         : <ConnectedUsers me={me} />}

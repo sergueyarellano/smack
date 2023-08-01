@@ -12,7 +12,7 @@ export default function InputName ({ setMe }) {
         }
       }}
     >
-      <span className='material-symbols-outlined'>badge</span>
+      <label className='material-symbols-outlined'>badge</label>
       <input
         className={style.input}
         type='text'

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Draggable from 'react-draggable'
 const Container = styled.div`
   display: ${props => props.$display ? 'grid' : 'none'};
-  grid-template-rows: 1rem 1fr; 
+  grid-template-rows: 1.5rem 1fr;
   grid-column: ${props => props.$column};
   grid-row: ${props => props.$row};
   overflow: hidden;
@@ -21,7 +21,6 @@ const Container = styled.div`
 
 const Title = styled.label`
   font-size: 0.6rem;
-  background-color: var(--greyLight);
   border: 1px var(--white) solid;
   padding-left: 3px;
   font-weight: bold;

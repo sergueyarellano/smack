@@ -1,8 +1,7 @@
 .form {
   padding: 1em;
   display: grid;
-  grid-template-columns: min-content 1fr;
-  grid-template-rows: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .input {

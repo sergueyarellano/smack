@@ -1,36 +1,63 @@
 import { io } from 'socket.io-client'
 
-let connectedUsers
-
-function initWebSocket ({ log, logE, setUsers }) {
+function initWebSocket ({ log, logE, setUsers, users }) {
   const socket = io('http://localhost:6503', { autoConnect: false })
+  // socket = io('https://staging.ackws.net/')
 
   // Get a new Id for the client if needed
-  const myId = window.localStorage.getItem('socketSessionID')
-  const isExpiredId = !myId || checkExpiration(myId)
-  isExpiredId && socket.emit('requestId')
+  // const myId = window.localStorage.getItem('socketSessionID')
+  // const isExpiredId = !myId || checkExpiration(myId)
+  // isExpiredId && socket.emit('requestId')
 
-  // socket = io('https://staging.ackws.net/')
-  socket.on('connect', () => { log(`connected as ${socket.auth.username}`) })
+  socket.on('connect', () => {
+    setUsers(prev => prev.map(user => {
+      if (user.self) {
+        user.connected = true
+      }
+      return user
+    }))
+  })
+
+  socket.on('disconnect', () => {
+    setUsers(prev => prev.map(user => {
+      if (user.self) {
+        user.connected = false
+      }
+      return user
+    }))
+  })
+  // upon connection we receive all users and add it to the pool
+  socket.on('connect_error', (err) => logE('invalid username', err))
   socket.on('users', (users) => {
     // identify current user
     users.forEach((user) => { user.self = user.userID === socket.id })
 
     // put the current user first, and then sort by username
-    connectedUsers = users.sort((a, b) => {
+    /**
+     * connectedUsers: [{userID, username, self}]
+     */
+    const connectedUsers = users.sort((a, b) => {
       if (a.self) return -1
       if (b.self) return 1
       if (a.username < b.username) return -1
       return a.username > b.username ? 1 : 0
     })
     setUsers(connectedUsers)
-    log(`users connected:\n${connectedUsers.map(({ username }) => username).join()}`)
   })
-  socket.on('user connected', (user) => {
-    connectedUsers.push(user)
-    log(`user ${user.username} is here too`)
+  // when a new user connects, we add it to existing pool of users
+  socket.on('user connected', (user) => { setUsers(prev => [...prev, user]) })
+  socket.on('private message', ({ content, from }) => {
+    setUsers(prev => {
+      return prev.map(user => {
+        if (user.userID === from) {
+          // add new incomming
+          const messages = user.messages || []
+          return { ...user, messages: messages.concat({ content, fromSelf: false }) }
+        }
+        return user
+      })
+    })
   })
-  socket.on('connect_error', (err) => logE('invalid username', err))
   socket.on('disconnect', () => {})
   socket.on('message', () => {})
   socket.on('id', (myId) => {

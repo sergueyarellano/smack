@@ -4,10 +4,14 @@
 
 .fromSelf {
   color: var(--white);
+  display: grid;
+  justify-items: left;
 }
 
 .fromNotSelf {
   color: var(--green);
+  display: grid;
+  justify-items: right;
 }
 
 pre {
