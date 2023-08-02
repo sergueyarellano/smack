@@ -2,7 +2,6 @@ import { Fragment, useEffect, useRef } from 'react'
 import style from './pChat.output.module.css'
 
 export default function Output ({ messages = [] }) {
-  console.log('TCL: messages', messages)
   const messagesEndRef = useRef(null)
 
   useEffect(() => {

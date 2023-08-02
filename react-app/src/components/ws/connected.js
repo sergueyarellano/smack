@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import style from './connected.module.css'
 import { initWebSocket } from './socket'
 import PChat from './pChat'
+import { VideoCallContext } from '../../VideoCallContext'
 
 export default function ConnectedUsers ({ me }) {
+  const { socket, setSocket } = useContext(VideoCallContext)
   const [users, setUsers] = useState([])
   /**
    * users: [{userID, username, self}]
    */
-
   const [pChat, setPChat] = useState()
   const [egressMessage, sendMessage] = useState()
-  const [socket, setSocket] = useState()
 
   useEffect(() => {
     // register our username in the current socket and connect
@@ -43,14 +43,17 @@ export default function ConnectedUsers ({ me }) {
       })
     }
   }, [egressMessage])
-  return pChat
-    ? <PChat
-        withUser={pChat}
-        messages={users.find(user => user.userID === pChat.userID).messages}
-        sendMessage={sendMessage}
-        goBack={() => setPChat()}
-      />
-    : <ActiveUsers users={users} setPChat={setPChat} />
+  return (
+    pChat
+      ? <PChat
+          withUser={pChat}
+          me={me}
+          messages={users.find(user => user.userID === pChat.userID).messages}
+          sendMessage={sendMessage}
+          goBack={() => setPChat()}
+        />
+      : <ActiveUsers users={users} setPChat={setPChat} />
+  )
 }
 
 const ActiveUsers = ({ users, setPChat }) => {

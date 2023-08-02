@@ -6,6 +6,20 @@
   overflow: auto;
 }
 
+.pulse {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 var(--pink);
+  animation: pulse-c6zlskmd 1s infinite;
+}
+
+@keyframes pulse-c6zlskmd {
+  100% {
+    box-shadow: 0 0 0 2rem #0000;
+  }
+}
+
 .videocam {
   position: fixed;
   top: 0.1em;
