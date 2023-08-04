@@ -1,8 +1,8 @@
 import { io } from 'socket.io-client'
 
 function initWebSocket ({ log, logE, setUsers, users }) {
-  const socket = io('http://localhost:6503', { autoConnect: false })
-  // socket = io('https://staging.ackws.net/')
+  const wsURL = process.env.REACT_APP_WS_URL || 'http://localhost:6503'
+  const socket = io(wsURL, { autoConnect: false })
 
   // Get a new Id for the client if needed
   // const myId = window.localStorage.getItem('socketSessionID')
