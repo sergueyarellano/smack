@@ -19,28 +19,22 @@ export function closeRTC () {
   // })
 }
 
-export async function initConfigRTC () {
+export async function peer () {
   const servers = {
-    iceServers: [{
-      url: 'stun:stun.l.google.com:19302'
-    }, {
-      urls: 'stun:global.stun.twilio.com:3478'
-    }, {
-      url: 'stun:stun1.l.google.com:19302'
-    }, {
-      url: 'stun:stun2.l.google.com:19302'
-    }, {
-      url: 'stun:stun3.l.google.com:19302'
-    }, {
-      url: 'stun:stun4.l.google.com:19302'
-    }],
+    iceServers: [{ url: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:global.stun.twilio.com:3478' },
+      {
+        urls: 'turn:44.203.7.211:3478',
+        username: 'smack',
+        credential: 'smack'
+      }],
     iceCandidatePoolSize: 10
   }
 
   // Global State
   pc = new window.RTCPeerConnection(servers)
 
-  return { pc }
+  return pc
 }
 
 export async function setUpMediaSources ({ pc, setStream }) {
@@ -52,11 +46,12 @@ export async function setUpMediaSources ({ pc, setStream }) {
   })
 
   // Pull tracks from remote stream, add to video stream
-  pc.ontrack = (event) => {
-    event.streams[0].getTracks().forEach((track) => {
+  pc.ontrack = ({ track, streams }) => {
+    streams[0].getTracks().forEach((track) => {
       remoteStream.addTrack(track)
     })
   }
+
   setStream([{ self: true, src: localStream }, { self: false, src: remoteStream }])
 }
 

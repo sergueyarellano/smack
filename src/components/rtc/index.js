@@ -2,15 +2,15 @@ import Video from '../video'
 import style from './view.module.css'
 import Window from '../window'
 import { useContext, useEffect, useState } from 'react'
-import { initConfigRTC, sendAnswer, sendOffer, setUpMediaSources } from './api'
+import { peer, sendAnswer, sendOffer, setUpMediaSources } from './api'
 import { VideoCallContext } from '../../VideoCallContext'
 
 export default function VideoConfView () {
   const { videoCall, socket } = useContext(VideoCallContext)
   const [streams, setStream] = useState([])
   useEffect(() => {
-    initConfigRTC()
-      .then(({ pc, firestore }) =>
+    peer()
+      .then(pc =>
         setUpMediaSources({ pc, setStream })
           .then(() => videoCall.initiator
             ? sendOffer({ pc, socket, to: videoCall.withUser })
