@@ -27,7 +27,12 @@ export async function peer () {
         urls: 'turn:44.203.7.211:3478',
         username: 'smack',
         credential: 'smack'
-      }],
+      },
+      { url: 'stun:stun1.l.google.com:19302' },
+      { url: 'stun:stun2.l.google.com:19302' },
+      { url: 'stun:stun3.l.google.com:19302' },
+      { url: 'stun:stun4.l.google.com:19302' }
+    ],
     iceCandidatePoolSize: 10
   }
 
