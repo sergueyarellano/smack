@@ -61,6 +61,11 @@ export async function setUpMediaSources ({ pc, setStream }) {
 }
 
 export async function sendOffer ({ pc, socket, to }) {
+  pc.oniceconnectionstatechange = () => {
+    if (pc.iceConnectionState === 'failed') {
+      pc.restartIce()
+    }
+  }
   // Get candidates for caller, save to db
   pc.onicecandidate = (event) => {
     event.candidate && socket.emit('rtc offer candidates', { content: event.candidate, to })
@@ -88,6 +93,11 @@ export async function sendOffer ({ pc, socket, to }) {
 export async function sendAnswer ({ pc, socket, to }) {
   // get SDP from signaling db
   socket.on('rtc offer', async (offer) => {
+    pc.oniceconnectionstatechange = () => {
+      if (pc.iceConnectionState === 'failed') {
+        pc.restartIce()
+      }
+    }
     pc.onicecandidate = (event) => {
       event.candidate && socket.emit('rtc answer candidates', { content: event.candidate, to })
     }
