@@ -44,13 +44,6 @@ export default function PChat ({ withUser, sendMessage, messages, goBack, me }) 
     socket.emit(emitEvent, { to: withUser.userID })
   }, [isTyping])
 
-  useEffect(() => {
-    const onUserTyping = () => setUserTyping(true)
-    const onUserStoppedTyping = () => setUserTyping(false)
-    socket.on('user typing', onUserTyping)
-    socket.on('user stopped typing', onUserStoppedTyping)
-  }, [])
-
   return (
     <div className={style.main}>
       <Output messages={messages} />
