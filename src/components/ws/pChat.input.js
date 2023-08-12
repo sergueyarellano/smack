@@ -2,12 +2,18 @@ import styles from './pChat.input.module.css'
 import { useEffect, useRef, useState } from 'react'
 
 // TODO: cool feature would be to remember history and reselect messages and commands
-export default function Input ({ sendMessage, userID }) {
+export default function Input ({ sendMessage, userID, onTyping }) {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   // get input reference to focus on input because react re-renders many times
   // so cannot use autofocus HTML property
   const ref = useRef(null)
+
+  const onBlur = () => onTyping(false)
+  const onChange = (event) => {
+    const newMessage = event.target.value
+    onTyping(newMessage.length > 0)
+  }
 
   // everyTime we search up or down in history, the text gets selected
   useEffect(() => {
@@ -25,6 +31,8 @@ export default function Input ({ sendMessage, userID }) {
         type='text'
         className={styles.input}
         ref={ref}
+        onChange={onChange}
+        onBlur={onBlur}
         onKeyDown={onKeyDown({ history, currentIndex, setCurrentIndex })}
       />
     </form>

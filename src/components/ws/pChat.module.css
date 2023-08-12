@@ -70,3 +70,9 @@ pre {
   word-wrap: break-word;
   /* Internet Explorer 5.5+ */
 }
+
+.fromNotSelf {
+  color: var(--green);
+  display: grid;
+  justify-items: right;
+}
